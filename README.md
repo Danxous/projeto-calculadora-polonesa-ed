@@ -38,10 +38,10 @@ O programa se trata de uma **calculadora de notação polonesa reversa (RPN)**, 
 
 ### 🧑‍💻 Autores
 
-Desenvolvido por Danilo Moreira
+Desenvolvido por Danilo Moreira - 
 GitHub: @Danxous
 E-mail: daniilomoreeira@gmail.com
 
-Desenvolvido por Pedro Henrique
+Desenvolvido por Pedro Henrique - 
 GitHub: [@pehe1](https://github.com/pehe1)
 E-mail: pehexd@proton.me
