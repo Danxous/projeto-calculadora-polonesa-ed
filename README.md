@@ -43,5 +43,5 @@ GitHub: @Danxous
 E-mail: daniilomoreeira@gmail.com
 
 Desenvolvido por Pedro Henrique
-GitHub: 
-E-mail:
+GitHub: @pehe1[]
+E-mail: pehexd@proton.me
