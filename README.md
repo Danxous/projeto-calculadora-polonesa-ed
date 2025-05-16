@@ -1,5 +1,3 @@
-# projeto-calculadora-polonesa-ed
-
 # Nome do projeto: 
 
 Calculadora polonesa reversa
