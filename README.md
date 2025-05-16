@@ -1,8 +1,8 @@
-# Nome do projeto: 
+## Nome do projeto: 
 
 Calculadora polonesa reversa
 
-# 🧮 Descrição do projeto
+## 🧮 Descrição do projeto
 
 Projeto criado para disciplina de **Estrutura de Dados** da Universidade Presbiteriana Mackenzie, 3º semestre.
 
