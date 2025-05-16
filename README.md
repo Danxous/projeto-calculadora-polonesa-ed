@@ -42,6 +42,6 @@ Danilo Moreira -
 GitHub: [@Danxous](https://github.com/Danxous)
 E-mail: daniilomoreeira@gmail.com
 
- - 
+Pedro Cavalcante - 
 GitHub: [@pehe1](https://github.com/pehe1)
 E-mail: pehexd@proton.me
