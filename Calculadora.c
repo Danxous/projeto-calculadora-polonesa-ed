@@ -3,7 +3,7 @@
 
 // Estrutura de nó da pilha
 typedef struct No {
-    int valor;
+    double valor;
     struct No *proximo;
 } No;
 
@@ -22,7 +22,7 @@ Pilha* criarPilha() {
 }
 
 // Insere um novo valor no topo da pilha (push)
-void empilhar(Pilha *pilha, int valor) {
+void empilhar(Pilha *pilha, double valor) {
     No *novoNo = (No*) malloc(sizeof(No));
     novoNo->valor = valor;
     novoNo->proximo = pilha->topo; // O novo nó aponta para o antigo topo
@@ -31,7 +31,7 @@ void empilhar(Pilha *pilha, int valor) {
 }
 
 // Remove e retorna o valor do topo da pilha (pop)
-int desempilhar(Pilha *pilha) {
+double desempilhar(Pilha *pilha) {
     if (pilha->topo == NULL) {
         printf("Pilha vazia! Não é possível desempilhar.\n");
         return -1; // Valor indicativo de erro
@@ -48,7 +48,7 @@ int desempilhar(Pilha *pilha) {
 }
 
 // Retorna o valor no topo da pilha (sem remover)
-int topo(Pilha *pilha) {
+double topo(Pilha *pilha) {
     if (pilha->topo == NULL) {
         printf("Pilha vazia! Não há topo.\n");
         return -1;
@@ -66,7 +66,7 @@ void imprimirPilha(Pilha *pilha) {
     No *atual = pilha->topo;
     printf("Pilha (topo -> base): ");
     while (atual != NULL) {
-        printf("%d ", atual->valor);
+        printf("%.2lf ", atual->valor);
         atual = atual->proximo;
     }
     printf("\n");
@@ -99,10 +99,10 @@ int main() {
     imprimirPilha(pilha);
     imprimirTamanho(pilha);
 
-    printf("Elemento no topo: %d\n", topo(pilha));
+    printf("Elemento no topo: %.2lf\n", topo(pilha));
 
     int removido = desempilhar(pilha);
-    printf("Valor desempilhado: %d\n", removido);
+    printf("Valor desempilhado: %.2lf\n", removido);
     imprimirPilha(pilha);
     imprimirTamanho(pilha);
 
