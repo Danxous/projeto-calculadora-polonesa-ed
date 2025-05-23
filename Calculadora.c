@@ -219,7 +219,7 @@ void infixaParaPosfixa(const char *infixa, char *posfixa){
             }
 
             //Copia dígitos e ponto
-            while(isdigit(infixa[i]) || infixa == '.'){
+            while(isdigit(infixa[i]) || infixa[i] == '.'){
                 token[k++] = infixa[i++];
             }
             token[k] = '\0';
