@@ -172,6 +172,118 @@ double avaliarRPN(){
 
 }
 
+//Retorna a precedência do operador
+int precedencia(char operador){
+    switch(operador){
+        case '+':
+            return 1; //Menor precedência
+        case '-':
+            return 1; //Menor precedência
+        case '*':
+            return 2; //Maior precedência
+        case '/':
+            return 2; //Maior precedência
+        default:
+            return 0; //Não é operador
+    }
+}
+
+//Identifica se um caractere é um operador matemático, retornando 1 ou 0
+int ehOperador(char c){
+    return (c == '+' || c == '-' || c == '*' || c == '/');
+}
+
+//Transforma expressões infixas para pós fixadas
+void infixaParaPosfixa(const char *infixa, char *posfixa){
+    char pilhaOp[256]; //Pilha para operadores (array de char)
+    int topo = -1;     //Índice do topo da pilha
+    int i = 0;         //Índice para percorrer a expressão infixa
+    int j = 0;         //Índice para montar a expressão pós-fixada
+
+    while(infixa[i] != '\0'){
+
+        //Ignora espaços em branco 
+        if(isspace(infixa[i])){
+            i++;
+            continue;
+        }
+
+        //Se for número (inteiro ou real)
+        if(isdigit(infixa[i]) || ((infixa[i] == '+' || infixa[i] == '-') && isdigit(infixa[i+1])) || (infixa[i] == '.' && isdigit(infixa[i+1]))){
+            int k = 0;
+            char token[64];
+
+            //Copia sinal se houver
+            if(infixa[i] == '+' || infixa[i] == '-'){
+                token[k++] = infixa[i++];
+            }
+
+            //Copia dígitos e ponto
+            while(isdigit(infixa[i]) || infixa == '.'){
+                token[k++] = infixa[i++];
+            }
+            token[k] = '\0';
+
+            //Copia o número para a saída
+            int l = 0;
+            while(token[l]){ 
+                posfixa[j++] = token[l++];
+            }
+            posfixa[j++] = ' '; //Adiciona espaço após o número
+            continue; //Continua para o próximo caractere
+        }
+
+        //Se for parêntese esquerdo
+        if (infixa[i] == '(') {
+            pilhaOp[++topo] = infixa[i++];
+            continue;
+        }
+
+        //Se for parêntese direito
+        if (infixa[i] == ')') {
+            while (topo >= 0 && pilhaOp[topo] != '(') { 
+                posfixa[j++] = pilhaOp[topo--];
+                posfixa[j++] = ' ';
+            }
+            if (topo >= 0 && pilhaOp[topo] == '(') topo--; //Remove '('
+            i++;
+            continue;
+        }
+
+        //Se for operador
+        if(ehOperador(infixa[i])){     
+            char operador = infixa[i]; //Armazena o operador
+            while(topo >= 0 && ehOperador(pilhaOp[topo]) && precedencia(pilhaOp[topo]) >= precedencia(operador)){ 
+                posfixa[j++] = pilhaOp[topo--]; //Desempilha operadores de maior ou igual precedência  
+                posfixa[j++] = ' '; //Adiciona espaço após o operador
+            }
+            pilhaOp[++topo] = operador; //Empilha o operador
+            i++;
+            continue;
+        }
+
+        //Se chegou aqui, é caractere inválido
+        printf("Erro: caractere inválido '%c'\n", infixa[i]);
+        exit(EXIT_FAILURE); 
+    }
+
+    //Esvazia a pilha de operadores
+    while(topo >= 0) {
+        if(pilhaOp[topo] == '(' || pilhaOp[topo] == ')'){
+            printf("Erro: parênteses desbalanceados\n");
+            exit(EXIT_FAILURE); 
+        }
+        posfixa[j++] = pilhaOp[topo--]; // Desempilha operadores restantes  
+        posfixa[j++] = ' '; // Adiciona espaço após o operador
+    }
+    if(j > 0){
+        posfixa[j-1] = '\0'; //Remove espaço extra no final
+    }else{
+        posfixa[0] = '\0'; //Caso a expressão esteja vazia
+    } 
+}
+
+
 int main(){
     double resultado = avaliarRPN(); //Chama a função para avaliar a expressão RPN
     printf("Resultado: %.6g\n", resultado); //Exibe o resultado final
