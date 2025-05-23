@@ -208,57 +208,58 @@ void infixaParaPosfixa(const char *infixa, char *posfixa){
             continue;
         }
 
-        //Se for número (inteiro ou real)
+        //Se for número (inteiro ou real, com ou sem sinal)
         if(isdigit(infixa[i]) || ((infixa[i] == '+' || infixa[i] == '-') && isdigit(infixa[i+1])) || (infixa[i] == '.' && isdigit(infixa[i+1]))){
             int k = 0;
             char token[64];
 
-            //Copia sinal se houver
+            //Copia sinal se houver (+ ou -)
             if(infixa[i] == '+' || infixa[i] == '-'){
                 token[k++] = infixa[i++];
             }
 
-            //Copia dígitos e ponto
+            //Copia dígitos e ponto decimal
             while(isdigit(infixa[i]) || infixa[i] == '.'){
                 token[k++] = infixa[i++];
             }
-            token[k] = '\0';
+            token[k] = '\0'; //Finaliza a string do número
 
-            //Copia o número para a saída
+            //Copia o número para a saída pós-fixada
             int l = 0;
             while(token[l]){ 
                 posfixa[j++] = token[l++];
             }
             posfixa[j++] = ' '; //Adiciona espaço após o número
-            continue; //Continua para o próximo caractere
+            continue; //Continua para o próximo caractere da expressão
         }
 
-        //Se for parêntese esquerdo
+        //Se for parêntese esquerdo, empilha
         if (infixa[i] == '(') {
-            pilhaOp[++topo] = infixa[i++];
+            pilhaOp[++topo] = infixa[i++]; //Empilha '(' e avança o índice
             continue;
         }
 
-        //Se for parêntese direito
+        //Se for parêntese direito, desempilha até encontrar '('
         if (infixa[i] == ')') {
+            //Desempilha operadores até encontrar '('
             while (topo >= 0 && pilhaOp[topo] != '(') { 
-                posfixa[j++] = pilhaOp[topo--];
-                posfixa[j++] = ' ';
+                posfixa[j++] = pilhaOp[topo--]; //Copia operador para a saída
+                posfixa[j++] = ' '; //Espaço após o operador
             }
-            if (topo >= 0 && pilhaOp[topo] == '(') topo--; //Remove '('
-            i++;
+            if (topo >= 0 && pilhaOp[topo] == '(') topo--; //Remove '(' da pilha
+            i++; //Avança na expressão
             continue;
         }
 
-        //Se for operador
+        //Se for operador (+,-,*,/)
         if(ehOperador(infixa[i])){     
             char operador = infixa[i]; //Armazena o operador
             while(topo >= 0 && ehOperador(pilhaOp[topo]) && prioridade(pilhaOp[topo]) >= prioridade(operador)){ 
-                posfixa[j++] = pilhaOp[topo--]; //Desempilha operadores de maior ou igual prioridade  
+                posfixa[j++] = pilhaOp[topo--]; //Desempilha operadores de maior ou igual prioridade, e copia para a saída
                 posfixa[j++] = ' '; //Adiciona espaço após o operador
             }
-            pilhaOp[++topo] = operador; //Empilha o operador
-            i++;
+            pilhaOp[++topo] = operador; //Empilha o operador atual
+            i++; //Avança na expressão
             continue;
         }
 
@@ -267,14 +268,14 @@ void infixaParaPosfixa(const char *infixa, char *posfixa){
         exit(EXIT_FAILURE); 
     }
 
-    //Esvazia a pilha de operadores
+    //Esvazia a pilha de operadores ao final da expressão
     while(topo >= 0) {
         if(pilhaOp[topo] == '(' || pilhaOp[topo] == ')'){
             printf("Erro: parênteses desbalanceados\n");
             exit(EXIT_FAILURE); 
         }
-        posfixa[j++] = pilhaOp[topo--]; // Desempilha operadores restantes  
-        posfixa[j++] = ' '; // Adiciona espaço após o operador
+        posfixa[j++] = pilhaOp[topo--]; //Desempilha operadores restantes, e copia para a saída 
+        posfixa[j++] = ' '; //Adiciona espaço após o operador
     }
     if(j > 0){
         posfixa[j-1] = '\0'; //Remove espaço extra no final
