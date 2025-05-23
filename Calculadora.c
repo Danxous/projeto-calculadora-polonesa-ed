@@ -172,17 +172,17 @@ double avaliarRPN(){
 
 }
 
-//Retorna a precedência do operador
-int precedencia(char operador){
+//Retorna a prioridade do operador
+int prioridade(char operador){
     switch(operador){
         case '+':
-            return 1; //Menor precedência
+            return 1; //Menor prioridade
         case '-':
-            return 1; //Menor precedência
+            return 1; //Menor prioridade
         case '*':
-            return 2; //Maior precedência
+            return 2; //Maior prioridade
         case '/':
-            return 2; //Maior precedência
+            return 2; //Maior prioridade
         default:
             return 0; //Não é operador
     }
@@ -219,7 +219,7 @@ void infixaParaPosfixa(const char *infixa, char *posfixa){
             }
 
             //Copia dígitos e ponto
-            while(isdigit(infixa[i]) || infixa == '.'){
+            while(isdigit(infixa[i]) || infixa[i] == '.'){
                 token[k++] = infixa[i++];
             }
             token[k] = '\0';
@@ -253,8 +253,8 @@ void infixaParaPosfixa(const char *infixa, char *posfixa){
         //Se for operador
         if(ehOperador(infixa[i])){     
             char operador = infixa[i]; //Armazena o operador
-            while(topo >= 0 && ehOperador(pilhaOp[topo]) && precedencia(pilhaOp[topo]) >= precedencia(operador)){ 
-                posfixa[j++] = pilhaOp[topo--]; //Desempilha operadores de maior ou igual precedência  
+            while(topo >= 0 && ehOperador(pilhaOp[topo]) && prioridade(pilhaOp[topo]) >= prioridade(operador)){ 
+                posfixa[j++] = pilhaOp[topo--]; //Desempilha operadores de maior ou igual prioridade  
                 posfixa[j++] = ' '; //Adiciona espaço após o operador
             }
             pilhaOp[++topo] = operador; //Empilha o operador
@@ -282,7 +282,6 @@ void infixaParaPosfixa(const char *infixa, char *posfixa){
         posfixa[0] = '\0'; //Caso a expressão esteja vazia
     } 
 }
-
 
 int main(){
     double resultado = avaliarRPN(); //Chama a função para avaliar a expressão RPN
